@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuoteAura | Quote Generator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+:root{
+    --bg:#0d1020;
+    --sidebar:#14182b;
+    --card:rgba(255,255,255,.045);
+    --border:rgba(255,255,255,.09);
+    --text:#fff;
+    --muted:#8c92aa;
+    --purple:#8d72ff;
+    --green:#39d6b4;
+    --danger:#ff8cab;
+}
+
+body.light{
+    --bg:#f4f2ff;
+    --sidebar:#ffffff;
+    --card:#ffffff;
+    --border:#e4e1ef;
+    --text:#1b1b2a;
+    --muted:#6f7180;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(141,114,255,.22),transparent 30%),
+        radial-gradient(circle at 90% 90%,rgba(57,214,180,.16),transparent 30%),
+        var(--bg);
+    color:var(--text);
+    transition:.3s;
+}
+
+.app{
+    min-height:100vh;
+    display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:250px;
+    height:100vh;
+    position:fixed;
+    left:0;
+    top:0;
+    padding:28px 18px;
+    background:var(--sidebar);
+    border-right:1px solid var(--border);
+    z-index:10;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 12px 30px;
+}
+
+.logo-icon{
+    width:44px;
+    height:44px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#8d72ff,#39d6b4);
+    font-size:22px;
+}
+
+.logo h2{
+    font-size:20px;
+}
+
+.logo span{
+    color:var(--purple);
+}
+
+.nav-title{
+    color:#777d98;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    padding:10px 14px;
+    margin-bottom:8px;
+}
+
+.nav-btn{
+    width:100%;
+    border:none;
+    background:transparent;
+    color:var(--muted);
+    padding:13px 14px;
+    border-radius:12px;
+    margin-bottom:6px;
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+    background:rgba(141,114,255,.14);
+    color:var(--text);
+}
+
+.nav-btn.active{
+    border-left:3px solid var(--purple);
+}
+
+.sidebar-bottom{
+    position:absolute;
+    bottom:25px;
+    left:18px;
+    right:18px;
+}
+
+.tip{
+    background:rgba(141,114,255,.08);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:15px;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.5;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+    padding:30px 45px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.welcome h1{
+    font-size:28px;
+    margin-bottom:7px;
+}
+
+.welcome p{
+    color:var(--muted);
+    font-size:14px;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.badge{
+    background:rgba(57,214,180,.1);
+    color:var(--green);
+    border:1px solid rgba(57,214,180,.2);
+    padding:9px 15px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.theme-btn{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+/* SEARCH */
+
+.search-box{
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:8px;
+    border-radius:18px;
+    display:flex;
+    gap:8px;
+    margin-bottom:28px;
+}
+
+.search-box input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:var(--text);
+    padding:13px 15px;
+    font-size:14px;
+}
+
+.search-box input::placeholder{
+    color:#737990;
+}
+
+.search-btn{
+    border:none;
+    background:linear-gradient(135deg,#8d72ff,#6f58dc);
+    color:white;
+    padding:0 24px;
+    border-radius:13px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+/* QUOTE CARD */
+
+.quote-card{
+    min-height:330px;
+    background:
+        linear-gradient(135deg,rgba(141,114,255,.16),rgba(57,214,180,.07)),
+        var(--card);
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:45px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 25px 70px rgba(0,0,0,.15);
+}
+
+.quote-card::before{
+    content:"“";
+    position:absolute;
+    right:35px;
+    top:-35px;
+    font-family:Georgia,serif;
+    font-size:220px;
+    opacity:.04;
+}
+
+.quote-label{
+    color:var(--green);
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    margin-bottom:20px;
+}
+
+#quoteText{
+    font-family:Georgia,serif;
+    font-size:clamp(25px,3vw,39px);
+    line-height:1.35;
+    max-width:900px;
+    position:relative;
+}
+
+#quoteAuthor{
+    color:var(--muted);
+    margin-top:22px;
+    font-size:15px;
+}
+
+.category-tag{
+    display:inline-block;
+    margin-top:20px;
+    width:fit-content;
+    background:rgba(141,114,255,.15);
+    border:1px solid rgba(141,114,255,.25);
+    color:#a99aff;
+    padding:7px 13px;
+    border-radius:20px;
+    font-size:11px;
+}
+
+/* ACTIONS */
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+    flex-wrap:wrap;
+}
+
+.action-btn{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:13px;
+    transition:.2s;
+}
+
+.action-btn:hover{
+    transform:translateY(-2px);
+}
+
+.primary{
+    background:linear-gradient(135deg,#8d72ff,#6f58dc);
+    border:none;
+    color:white;
+}
+
+.favorite{
+    color:var(--danger);
+}
+
+/* CATEGORIES */
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:35px 0 15px;
+}
+
+.section-title h2{
+    font-size:18px;
+}
+
+.section-title span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.categories{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.category-btn{
+    background:var(--card);
+    color:var(--muted);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:10px 16px;
+    cursor:pointer;
+}
+
+.category-btn:hover{
+    color:var(--text);
+    border-color:var(--purple);
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:28px;
+}
+
+.stat-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:20px;
+}
+
+.stat-icon{
+    font-size:23px;
+    margin-bottom:12px;
+}
+
+.stat-number{
+    font-size:25px;
+    font-weight:700;
+}
+
+.stat-name{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* SAVED */
+
+.saved-section{
+    display:none;
+}
+
+.saved-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:15px;
+}
+
+.saved-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:17px;
+    padding:20px;
+}
+
+.saved-card p{
+    font-family:Georgia,serif;
+    font-size:17px;
+    line-height:1.5;
+}
+
+.saved-card small{
+    color:var(--muted);
+    display:block;
+    margin-top:12px;
+}
+
+.remove-btn{
+    margin-top:15px;
+    border:none;
+    background:rgba(255,90,120,.1);
+    color:var(--danger);
+    padding:8px 12px;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+.empty{
+    color:var(--muted);
+    padding:40px;
+    text-align:center;
+    background:var(--card);
+    border-radius:18px;
+}
+
+/* QUOTE IMAGE MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    align-items:center;
+    justify-content:center;
+    z-index:50;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:550px;
+    background:var(--sidebar);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:22px;
+}
+
+.modal-title{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
+
+.close-btn{
+    background:none;
+    border:none;
+    color:var(--muted);
+    font-size:22px;
+    cursor:pointer;
+}
+
+.quote-image{
+    aspect-ratio:1.6/1;
+    border-radius:18px;
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(141,114,255,.45),transparent 40%),
+        radial-gradient(circle at 80% 80%,rgba(57,214,180,.35),transparent 40%),
+        #171b31;
+}
+
+.quote-image p{
+    font-family:Georgia,serif;
+    font-size:25px;
+    line-height:1.4;
+}
+
+.quote-image small{
+    color:#aeb3c7;
+    margin-top:20px;
+}
+
+.download-btn{
+    width:100%;
+    margin-top:15px;
+    padding:13px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#8d72ff,#6f58dc);
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    background:#20263d;
+    color:white;
+    padding:13px 20px;
+    border-radius:12px;
+    transform:translateY(100px);
+    opacity:0;
+    transition:.3s;
+    z-index:100;
+    font-size:13px;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:70px;
+        padding:20px 10px;
+    }
+
+    .logo{
+        justify-content:center;
+        padding:0 0 25px;
+    }
+
+    .logo h2,
+    .nav-title,
+    .nav-btn span,
+    .tip{
+        display:none;
+    }
+
+    .nav-btn{
+        justify-content:center;
+        padding:14px 8px;
+    }
+
+    .sidebar-bottom{
+        display:none;
+    }
+
+    .main{
+        margin-left:70px;
+        width:calc(100% - 70px);
+        padding:25px 18px;
+    }
+
+    .welcome h1{
+        font-size:22px;
+    }
+
+    .badge{
+        display:none;
+    }
+
+    .quote-card{
+        padding:28px 22px;
+        min-height:350px;
+    }
+
+    .search-box{
+        flex-direction:column;
+    }
+
+    .search-btn{
+        padding:13px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+        align-items:flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">✦</div>
+        <h2>Quote<span>Aura</span></h2>
+    </div>
+
+    <div class="nav-title">Workspace</div>
+
+    <button class="nav-btn active" id="generatorNav" onclick="showGenerator()">
+        💬 <span>Quote Generator</span>
+    </button>
+
+    <button class="nav-btn" id="savedNav" onclick="showSaved()">
+        ❤️ <span>Saved Quotes</span>
+    </button>
+
+    <div class="sidebar-bottom">
+        <div class="tip">
+            💡 <strong>Daily Inspiration</strong><br>
+            Discover a new thought and make your day meaningful.
+        </div>
+    </div>
+
+</aside>
+
+<main class="main">
+
+    <div class="topbar">
+
+        <div class="welcome">
+            <h1>Quote Generator</h1>
+            <p>Find words that match your mood, goals and thoughts.</p>
+        </div>
+
+        <div class="top-actions">
+            <div class="badge">● Ready to Inspire</div>
+
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
+                🌙
+            </button>
+        </div>
+
+    </div>
+
+
+    <!-- GENERATOR -->
+
+    <section id="generatorSection">
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search any topic... e.g. success, love, study, life"
+                onkeydown="handleSearch(event)"
+            >
+
+            <button class="search-btn" onclick="searchQuotes()">
+                Search
+            </button>
+
+        </div>
+
+
+        <div class="quote-card">
+
+            <div class="quote-label">
+                Quote of the Moment
+            </div>
+
+            <div id="quoteText">
+                “The secret of getting ahead is getting started.”
+            </div>
+
+            <div id="quoteAuthor">
+                — Mark Twain
+            </div>
+
+            <div id="quoteCategory" class="category-tag">
+                Motivation
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button class="action-btn primary" onclick="newQuote()">
+                🔄 New Quote
+            </button>
+
+            <button class="action-btn favorite" onclick="saveQuote()">
+                ❤️ Save Quote
+            </button>
+
+            <button class="action-btn" onclick="copyQuote()">
+                📋 Copy
+            </button>
+
+            <button class="action-btn" onclick="shareQuote()">
+                🔗 Share
+            </button>
+
+            <button class="action-btn" onclick="openQuoteCard()">
+                🖼️ Quote Card
+            </button>
+
+        </div>
+
+
+        <div class="section-title">
+            <h2>Explore Categories</h2>
+            <span>Choose a topic</span>
+        </div>
+
+
+        <div class="categories">
+
+            <button class="category-btn" onclick="selectCategory('motivation')">
+                🔥 Motivation
+            </button>
+
+            <button class="category-btn" onclick="selectCategory('success')">
+                🏆 Success
+            </button>
+
+            <button class="category-btn" onclick="selectCategory('study')">
+                📚 Study
+            </button>
+
+            <button class="category-btn" onclick="selectCategory('life')">
+                🌱 Life
+            </button>
+
+            <button class="category-btn" onclick="selectCategory('love')">
+                💜 Love
+            </button>
+
+            <button class="category-btn" onclick="selectCategory('friendship')">
+                🤝 Friendship
+            </button>
+
+            <button class="category-btn" onclick="selectCategory('confidence')">
+                ✨ Confidence
+            </button>
+
+            <button class="category-btn" onclick="selectCategory('dream')">
+                🌙 Dreams
+            </button>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="section-title">
+            <h2>📊 Your Activity</h2>
+            <span>Personal statistics</span>
+        </div>
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <div class="stat-icon">💬</div>
+                <div class="stat-number" id="exploredCount">0</div>
+                <div class="stat-name">Quotes Explored</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">❤️</div>
+                <div class="stat-number" id="favoriteCount">0</div>
+                <div class="stat-name">Favorites Saved</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🏷️</div>
+                <div class="stat-number" id="categoryCount">0</div>
+                <div class="stat-name">Categories Explored</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SAVED -->
+
+    <section id="savedSection" class="saved-section">
+
+        <div class="section-title">
+            <h2>❤️ Your Saved Quotes</h2>
+            <span id="savedCount">0 quotes</span>
+        </div>
+
+        <div id="savedGrid" class="saved-grid"></div>
+
+    </section>
+
+</main>
+
+</div>
+
+
+<!-- QUOTE CARD MODAL -->
+
+<div class="modal" id="quoteModal">
+
+    <div class="modal-box">
+
+        <div class="modal-title">
+            <h2>Quote Card</h2>
+
+            <button class="close-btn" onclick="closeQuoteCard()">
+                ×
+            </button>
+        </div>
+
+        <div class="quote-image" id="quoteImage">
+
+            <p id="imageQuote"></p>
+
+            <small id="imageAuthor"></small>
+
+        </div>
+
+        <button class="download-btn" onclick="downloadQuoteCard()">
+            ⬇️ Download Quote Card
+        </button>
+
+    </div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+/* QUOTES */
+
+const quotes = [
+
+{
+text:"The secret of getting ahead is getting started.",
+author:"Mark Twain",
+category:"motivation",
+keywords:["motivation","start","begin","success","work"]
+},
+
+{
+text:"Success is the sum of small efforts, repeated day in and day out.",
+author:"Robert Collier",
+category:"success",
+keywords:["success","work","effort","motivation","achievement"]
+},
+
+{
+text:"Believe you can and you're halfway there.",
+author:"Theodore Roosevelt",
+category:"confidence",
+keywords:["confidence","believe","motivation","success","self"]
+},
+
+{
+text:"Education is the most powerful weapon which you can use to change the world.",
+author:"Nelson Mandela",
+category:"study",
+keywords:["study","education","college","learning","knowledge","exam"]
+},
+
+{
+text:"The beautiful thing about learning is that nobody can take it away from you.",
+author:"B.B. King",
+category:"study",
+keywords:["study","learning","education","knowledge","college"]
+},
+
+{
+text:"Life is what happens while you are busy making other plans.",
+author:"John Lennon",
+category:"life",
+keywords:["life","living","future","plans","time"]
+},
+
+{
+text:"Keep your face always toward the sunshine, and shadows will fall behind you.",
+author:"Walt Whitman",
+category:"life",
+keywords:["life","positive","hope","sunshine","motivation"]
+},
+
+{
+text:"Where there is love there is life.",
+author:"Mahatma Gandhi",
+category:"love",
+keywords:["love","life","heart","relationship"]
+},
+
+{
+text:"Love is composed of a single soul inhabiting two bodies.",
+author:"Aristotle",
+category:"love",
+keywords:["love","relationship","heart","romance"]
+},
+
+{
+text:"A real friend is one who walks in when the rest of the world walks out.",
+author:"Walter Winchell",
+category:"friendship",
+keywords:["friendship","friend","friends","trust","relationship"]
+},
+
+{
+text:"Friendship is the only cement that will ever hold the world together.",
+author:"Woodrow Wilson",
+category:"friendship",
+keywords:["friendship","friend","friends","together"]
+},
+
+{
+text:"Your limitation—it's only your imagination.",
+author:"Unknown",
+category:"confidence",
+keywords:["confidence","imagination","self","power","motivation"]
+},
+
+{
+text:"Dream big and dare to fail.",
+author:"Norman Vincent Peale",
+category:"dream",
+keywords:["dream","dreams","goal","success","future"]
+},
+
+{
+text:"All our dreams can come true, if we have the courage to pursue them.",
+author:"Walt Disney",
+category:"dream",
+keywords:["dream","dreams","courage","success","goal"]
+},
+
+{
+text:"Don't watch the clock; do what it does. Keep going.",
+author:"Sam Levenson",
+category:"motivation",
+keywords:["motivation","time","work","keep","going"]
+},
+
+{
+text:"Great things are done by a series of small things brought together.",
+author:"Vincent van Gogh",
+category:"success",
+keywords:["success","small","effort","achievement","work"]
+},
+
+{
+text:"The future depends on what you do today.",
+author:"Mahatma Gandhi",
+category:"success",
+keywords:["future","success","today","work","motivation","career"]
+},
+
+{
+text:"It always seems impossible until it's done.",
+author:"Nelson Mandela",
+category:"motivation",
+keywords:["motivation","impossible","success","confidence"]
+},
+
+{
+text:"You are never too old to set another goal or to dream a new dream.",
+author:"C.S. Lewis",
+category:"dream",
+keywords:["dream","goal","life","future","motivation"]
+},
+
+{
+text:"Be yourself; everyone else is already taken.",
+author:"Oscar Wilde",
+category:"confidence",
+keywords:["confidence","self","yourself","identity"]
+},
+
+{
+text:"Happiness depends upon ourselves.",
+author:"Aristotle",
+category:"life",
+keywords:["life","happiness","positive","self"]
+},
+
+{
+text:"What we think, we become.",
+author:"Buddha",
+category:"confidence",
+keywords:["thought","mind","confidence","life","positive"]
+},
+
+{
+text:"A journey of a thousand miles begins with a single step.",
+author:"Lao Tzu",
+category:"motivation",
+keywords:["journey","start","motivation","success","step"]
+},
+
+{
+text:"Success is not final, failure is not fatal: it is the courage to continue that counts.",
+author:"Winston Churchill",
+category:"success",
+keywords:["success","failure","courage","motivation","continue"]
+}
+
+];
+
+
+let currentQuote = quotes[0];
+
+
+/* DISPLAY */
+
+function displayQuote(quote){
+
+    currentQuote = quote;
+
+    document.getElementById("quoteText").textContent =
+        "“" + quote.text + "”";
+
+    document.getElementById("quoteAuthor").textContent =
+        "— " + quote.author;
+
+    document.getElementById("quoteCategory").textContent =
+        capitalize(quote.category);
+
+    updateExplored();
+}
+
+
+/* NEW QUOTE */
+
+function newQuote(){
+
+    const random =
+        Math.floor(Math.random()*quotes.length);
+
+    displayQuote(quotes[random]);
+
+    showToast("✨ New quote generated!");
+
+}
+
+
+/* SEARCH */
+
+function searchQuotes(){
+
+    const search =
+        document.getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    if(!search){
+
+        showToast("🔎 Enter a topic to search.");
+
+        return;
+    }
+
+    const words = search.split(/\s+/);
+
+    const results = quotes.filter(q => {
+
+        const text =
+            (
+                q.text+" "+
+                q.author+" "+
+                q.category+" "+
+                q.keywords.join(" ")
+            ).toLowerCase();
+
+        return words.some(word =>
+            text.includes(word)
+        );
+
+    });
+
+
+    if(results.length > 0){
+
+        const random =
+            results[Math.floor(Math.random()*results.length)];
+
+        displayQuote(random);
+
+        updateCategoryStats(random.category);
+
+        showToast(
+            "✨ Found "+results.length+" related quote(s)."
+        );
+
+    }else{
+
+        showToast(
+            "😔 No matching quote found. Try another topic."
+        );
+
+    }
+
+}
+
+
+/* ENTER SEARCH */
+
+function handleSearch(event){
+
+    if(event.key==="Enter"){
+        searchQuotes();
+    }
+
+}
+
+
+/* CATEGORY */
+
+function selectCategory(category){
+
+    const results =
+        quotes.filter(q =>
+            q.category===category
+        );
+
+    const random =
+        results[Math.floor(Math.random()*results.length)];
+
+    displayQuote(random);
+
+    document.getElementById("searchInput").value =
+        category;
+
+    updateCategoryStats(category);
+
+    showToast(
+        "🏷️ "+capitalize(category)+" quote selected."
+    );
+
+}
+
+
+/* SAVE */
+
+function saveQuote(){
+
+    let saved =
+        JSON.parse(localStorage.getItem("savedQuotes")) || [];
+
+    const exists =
+        saved.some(q =>
+            q.text===currentQuote.text
+        );
+
+    if(exists){
+
+        showToast("❤️ Quote already saved.");
+
+        return;
+    }
+
+    saved.push(currentQuote);
+
+    localStorage.setItem(
+        "savedQuotes",
+        JSON.stringify(saved)
+    );
+
+    updateStats();
+
+    showToast("❤️ Quote saved successfully!");
+
+}
+
+
+/* COPY */
+
+function copyQuote(){
+
+    const text =
+        `"${currentQuote.text}" — ${currentQuote.author}`;
+
+    if(navigator.clipboard){
+
+        navigator.clipboard.writeText(text);
+
+        showToast("📋 Quote copied!");
+
+    }else{
+
+        showToast("Copy is not supported.");
+
+    }
+
+}
+
+
+/* SHARE */
+
+function shareQuote(){
+
+    const text =
+        `"${currentQuote.text}" — ${currentQuote.author}`;
+
+    if(navigator.share){
+
+        navigator.share({
+            title:"QuoteAura",
+            text:text
+        });
+
+    }else{
+
+        copyQuote();
+
+        showToast("📋 Quote copied. You can share it anywhere!");
+
+    }
+
+}
+
+
+/* QUOTE CARD */
+
+function openQuoteCard(){
+
+    document.getElementById("imageQuote").textContent =
+        "“"+currentQuote.text+"”";
+
+    document.getElementById("imageAuthor").textContent =
+        "— "+currentQuote.author;
+
+    document.getElementById("quoteModal").style.display =
+        "flex";
+
+}
+
+
+function closeQuoteCard(){
+
+    document.getElementById("quoteModal").style.display =
+        "none";
+
+}
+
+
+/* DOWNLOAD QUOTE CARD */
+
+function downloadQuoteCard(){
+
+    const canvas =
+        document.createElement("canvas");
+
+    canvas.width=1200;
+    canvas.height=750;
+
+    const ctx =
+        canvas.getContext("2d");
+
+    const gradient =
+        ctx.createLinearGradient(0,0,1200,750);
+
+    gradient.addColorStop(0,"#171b31");
+    gradient.addColorStop(1,"#30245d");
+
+    ctx.fillStyle=gradient;
+
+    ctx.fillRect(0,0,1200,750);
+
+
+    ctx.fillStyle="#39d6b4";
+
+    ctx.font="bold 24px Arial";
+
+    ctx.fillText(
+        "QUOTEAURA",
+        80,
+        90
+    );
+
+
+    ctx.fillStyle="#ffffff";
+
+    ctx.font="42px Georgia";
+
+    const words =
+        currentQuote.text.split(" ");
+
+    let line="";
+    let y=270;
+
+    for(let i=0;i<words.length;i++){
+
+        const test =
+            line+words[i]+" ";
+
+        const width =
+            ctx.measureText(test).width;
+
+        if(width>1000){
+
+            ctx.fillText(line,80,y);
+
+            line=words[i]+" ";
+
+            y+=65;
+
+        }else{
+
+            line=test;
+
+        }
+
+    }
+
+    ctx.fillText(line,80,y);
+
+
+    ctx.fillStyle="#aeb3c7";
+
+    ctx.font="24px Arial";
+
+    ctx.fillText(
+        "— "+currentQuote.author,
+        80,
+        y+100
+    );
+
+
+    const link =
+        document.createElement("a");
+
+    link.download="quote-aura-card.png";
+
+    link.href =
+        canvas.toDataURL("image/png");
+
+    link.click();
+
+    showToast("🖼️ Quote card downloaded!");
+
+}
+
+
+/* SAVED PAGE */
+
+function showGenerator(){
+
+    document.getElementById("generatorSection").style.display =
+        "block";
+
+    document.getElementById("savedSection").style.display =
+        "none";
+
+    document.getElementById("generatorNav").classList.add("active");
+
+    document.getElementById("savedNav").classList.remove("active");
+
+}
+
+
+function showSaved(){
+
+    document.getElementById("generatorSection").style.display =
+        "none";
+
+    document.getElementById("savedSection").style.display =
+        "block";
+
+    document.getElementById("generatorNav").classList.remove("active");
+
+    document.getElementById("savedNav").classList.add("active");
+
+    renderSaved();
+
+}
+
+
+function renderSaved(){
+
+    const grid =
+        document.getElementById("savedGrid");
+
+    const saved =
+        JSON.parse(localStorage.getItem("savedQuotes")) || [];
+
+    document.getElementById("savedCount").textContent =
+        saved.length+
+        (saved.length===1?" quote":" quotes");
+
+
+    if(saved.length===0){
+
+        grid.innerHTML=`
+            <div class="empty">
+                ❤️ No saved quotes yet.<br><br>
+                Generate a quote and click "Save Quote".
+            </div>
+        `;
+
+        return;
+    }
+
+
+    grid.innerHTML =
+        saved.map((quote,index)=>`
+
+            <div class="saved-card">
+
+                <p>“${quote.text}”</p>
+
+                <small>
+                    — ${quote.author} · ${capitalize(quote.category)}
+                </small>
+
+                <button
+                    class="remove-btn"
+                    onclick="removeSaved(${index})">
+                    🗑 Remove
+                </button>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function removeSaved(index){
+
+    let saved =
+        JSON.parse(localStorage.getItem("savedQuotes")) || [];
+
+    saved.splice(index,1);
+
+    localStorage.setItem(
+        "savedQuotes",
+        JSON.stringify(saved)
+    );
+
+    updateStats();
+
+    renderSaved();
+
+    showToast("🗑 Quote removed.");
+
+}
+
+
+/* STATS */
+
+function updateExplored(){
+
+    let count =
+        Number(localStorage.getItem("exploredCount")) || 0;
+
+    count++;
+
+    localStorage.setItem(
+        "exploredCount",
+        count
+    );
+
+    updateStats();
+
+}
+
+
+function updateCategoryStats(category){
+
+    let categories =
+        JSON.parse(localStorage.getItem("exploredCategories")) || [];
+
+    if(!categories.includes(category)){
+
+        categories.push(category);
+
+        localStorage.setItem(
+            "exploredCategories",
+            JSON.stringify(categories)
+        );
+
+    }
+
+    updateStats();
+
+}
+
+
+function updateStats(){
+
+    const explored =
+        Number(localStorage.getItem("exploredCount")) || 0;
+
+    const saved =
+        JSON.parse(localStorage.getItem("savedQuotes")) || [];
+
+    const categories =
+        JSON.parse(localStorage.getItem("exploredCategories")) || [];
+
+    document.getElementById("exploredCount").textContent =
+        explored;
+
+    document.getElementById("favoriteCount").textContent =
+        saved.length;
+
+    document.getElementById("categoryCount").textContent =
+        categories.length;
+
+}
+
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("light");
+
+    const isLight =
+        document.body.classList.contains("light");
+
+    localStorage.setItem(
+        "theme",
+        isLight?"light":"dark"
+    );
+
+    document.getElementById("themeBtn").textContent =
+        isLight?"☀️":"🌙";
+
+    showToast(
+        isLight?"☀️ Light mode":"🌙 Dark mode"
+    );
+
+}
+
+
+function loadTheme(){
+
+    const theme =
+        localStorage.getItem("theme");
+
+    if(theme==="light"){
+
+        document.body.classList.add("light");
+
+        document.getElementById("themeBtn").textContent =
+            "☀️";
+
+    }
+
+}
+
+
+/* HELPERS */
+
+function capitalize(text){
+
+    return text.charAt(0).toUpperCase()+
+        text.slice(1);
+
+}
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent=message;
+
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+        toast.classList.remove("show");
+    },2200);
+
+}
+
+
+/* START */
+
+loadTheme();
+updateStats();
+
+</script>
+
+</body>
+</html>

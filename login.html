@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuoteAura | Sign In</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(141,114,255,.28), transparent 30%),
+                radial-gradient(circle at 85% 80%, rgba(57,214,180,.18), transparent 30%),
+                #0d1020;
+            color: white;
+            padding: 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+            background: rgba(255,255,255,.045);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 30px 80px rgba(0,0,0,.3);
+            backdrop-filter: blur(15px);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .brand-icon {
+            width: 58px;
+            height: 58px;
+            margin: auto auto 15px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            background: linear-gradient(135deg,#8d72ff,#39d6b4);
+        }
+
+        .brand h1 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .brand h1 span {
+            color: #8d72ff;
+        }
+
+        .brand p {
+            color: #858ba4;
+            font-size: 13px;
+        }
+
+        label {
+            display: block;
+            color: #b9bed0;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 19px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,.1);
+            background: rgba(255,255,255,.045);
+            color: white;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #8d72ff;
+        }
+
+        input::placeholder {
+            color: #656b82;
+        }
+
+        .signin {
+            width: 100%;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            color: white;
+            background: linear-gradient(135deg,#8d72ff,#6f58dc);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .signin:hover {
+            opacity: .9;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #858ba4;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .back:hover {
+            color: white;
+        }
+
+        .note {
+            margin-top: 25px;
+            padding: 12px;
+            border-radius: 11px;
+            background: rgba(57,214,180,.07);
+            border: 1px solid rgba(57,214,180,.12);
+            color: #858ba4;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        @media(max-width:500px) {
+            .login-card {
+                padding: 30px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-card">
+
+    <div class="brand">
+
+        <div class="brand-icon">✦</div>
+
+        <h1>Quote<span>Aura</span></h1>
+
+        <p>Sign in to continue your inspiration journey</p>
+
+    </div>
+
+    <form action="index.html" method="get">
+
+        <div class="input-group">
+            <label>Email Address</label>
+
+            <input
+                type="text"
+                name="email"
+                placeholder="Enter your email"
+                required
+            >
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+            >
+        </div>
+
+        <button type="submit" class="signin">
+            Sign In →
+        </button>
+
+    </form>
+
+    <a href="home.html" class="back">
+        ← Back to Home
+    </a>
+
+    <div class="note">
+        ✨ Enter any email and password to access QuoteAura.
+    </div>
+
+</div>
+
+</body>
+</html>

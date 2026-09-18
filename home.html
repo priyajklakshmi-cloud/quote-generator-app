@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuoteAura | Inspire Your Day</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: white;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(141,114,255,.3), transparent 30%),
+                radial-gradient(circle at 85% 80%, rgba(57,214,180,.2), transparent 30%),
+                #0d1020;
+        }
+
+        nav {
+            height: 80px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg,#8d72ff,#39d6b4);
+        }
+
+        .logo span {
+            color: #8d72ff;
+        }
+
+        .login-btn {
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255,255,255,.15);
+            padding: 11px 22px;
+            border-radius: 12px;
+            transition: .25s;
+        }
+
+        .login-btn:hover {
+            background: rgba(141,114,255,.15);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: rgba(57,214,180,.1);
+            border: 1px solid rgba(57,214,180,.2);
+            color: #39d6b4;
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: clamp(42px,7vw,76px);
+            line-height: 1.05;
+            margin-bottom: 25px;
+        }
+
+        h1 span {
+            background: linear-gradient(90deg,#a795ff,#39d6b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #9298af;
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .buttons {
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            gap: 13px;
+            flex-wrap: wrap;
+        }
+
+        .start-btn {
+            text-decoration: none;
+            color: white;
+            padding: 14px 27px;
+            border-radius: 13px;
+            background: linear-gradient(135deg,#8d72ff,#6f58dc);
+            font-weight: 600;
+            transition: .25s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .explore-btn {
+            text-decoration: none;
+            color: #d5d8e4;
+            padding: 14px 27px;
+            border-radius: 13px;
+            border: 1px solid rgba(255,255,255,.12);
+        }
+
+        .features {
+            margin-top: 55px;
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 15px;
+        }
+
+        .feature {
+            padding: 22px;
+            border-radius: 18px;
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(255,255,255,.08);
+        }
+
+        .feature-icon {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .feature h3 {
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .feature p {
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        @media(max-width:650px) {
+            nav {
+                padding: 0 20px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        <div class="logo-icon">✦</div>
+        Quote<span>Aura</span>
+    </div>
+
+    <a href="login.html" class="login-btn">Sign In</a>
+</nav>
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="tag">✦ YOUR DAILY SOURCE OF INSPIRATION</div>
+
+        <h1>
+            Words that <span>inspire</span>.<br>
+            Thoughts that <span>matter.</span>
+        </h1>
+
+        <p>
+            Discover meaningful quotes for every mood, goal and moment.
+            Search topics, save your favorite quotes and carry a little
+            inspiration with you every day.
+        </p>
+
+        <div class="buttons">
+            <a href="login.html" class="start-btn">
+                Get Started →
+            </a>
+
+            <a href="login.html" class="explore-btn">
+                Explore Quotes
+            </a>
+        </div>
+
+        <div class="features">
+
+            <div class="feature">
+                <div class="feature-icon">🔍</div>
+                <h3>Smart Search</h3>
+                <p>Search quotes by any topic or keyword.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">❤️</div>
+                <h3>Save Favorites</h3>
+                <p>Keep the quotes that inspire you the most.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">✨</div>
+                <h3>Fresh Inspiration</h3>
+                <p>Generate a new quote whenever you need one.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>
